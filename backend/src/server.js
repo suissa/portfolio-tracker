@@ -61,7 +61,11 @@ const app = express();
 
 // Configure CORS
 app.use(cors({
-  origin: ['https://portfolio-tracker-hackstyx.vercel.app', 'http://localhost:5173'],
+  origin: [
+    'https://portfolio-tracker-sage.vercel.app',
+    'https://portfolio-tracker-hackstyx.vercel.app',
+    'http://localhost:5173'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
