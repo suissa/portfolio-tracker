@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Stock } = require('../models/stock');
+const Stock = require('../models/Stock');
 const stockPriceService = require('../services/stockPriceService');
 const { Op } = require('sequelize');
 const { finnhubClient } = require('../config/finnhub');
