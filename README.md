@@ -1,177 +1,122 @@
-# Stock Portfolio Tracker
+# Stock Portfolio Tracker 📈
 
-A modern web application for tracking your stock portfolio and watchlist. Built with React, Node.js, and PostgreSQL.
+<div align="center">
 
-## 🌐 Live Demo
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-tracker-hackstyx.vercel.app)
+[![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://portfolio-tracker-backend-y7ne.onrender.com/api)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-- Frontend: [https://portfolio-tracker-hackstyx.vercel.app](https://portfolio-tracker-hackstyx.vercel.app)
-- Backend API: [https://portfolio-tracker-backend-y7ne.onrender.com/api](https://portfolio-tracker-backend-y7ne.onrender.com/api)
+<p align="center">
+  <strong>A modern, responsive stock portfolio tracker built with React and Node.js</strong>
+</p>
+
+[Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Endpoint](https://portfolio-tracker-backend-y7ne.onrender.com/api) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
+
+![Portfolio Dashboard](https://i.imgur.com/your-screenshot.png)
+
+</div>
 
 ## ✨ Features
 
-- 📊 Real-time stock portfolio tracking
-- 👀 Watchlist management
-- 📈 Stock price history visualization
-- 🌓 Dark/Light theme support
-- 📱 Responsive design
-- 🔄 Automatic price updates
+- 📊 **Portfolio Management** - Track your stocks with real-time updates
+- 👀 **Watchlist** - Monitor potential investments
+- 🌓 **Dark/Light Mode** - Easy on the eyes, day and night
+- 📱 **Fully Responsive** - Perfect on desktop and mobile
+- 🔄 **Live Updates** - Stock prices update automatically
+- 📈 **Price History** - Visualize stock performance
 
-## 🚀 Running Locally
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js 14+
 - npm or yarn
-- PostgreSQL database
+- MySQL
 
 ### Frontend Setup
 
-1. Clone the repository:
+1. Clone and install:
 ```bash
 git clone https://github.com/HackStyx/portfolio-tracker.git
 cd portfolio-tracker
-```
-
-2. Install dependencies:
-```bash
 npm install
-# or
-yarn install
 ```
 
-3. Create a `.env` file in the root directory:
+2. Create `.env`:
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
-4. Start the development server:
+3. Start development server:
 ```bash
 npm run dev
-# or
-yarn dev
 ```
-
-The frontend will be available at `http://localhost:5173`
 
 ### Backend Setup
 
-1. Navigate to the backend directory:
+1. Setup backend:
 ```bash
 cd backend
-```
-
-2. Install dependencies:
-```bash
 npm install
-# or
-yarn install
 ```
 
-3. Create a `.env` file in the backend directory:
+2. Configure `.env`:
 ```env
-DATABASE_URL=your_postgresql_connection_string
+DATABASE_URL=mysql://user:password@localhost:3306/portfolio_tracker
 PORT=5000
 NODE_ENV=development
 ```
 
-4. Run database migrations:
+3. Run migrations and start:
 ```bash
 npm run migrate
-# or
-yarn migrate
-```
-
-5. Start the backend server:
-```bash
 npm start
-# or
-yarn start
 ```
 
-The API will be available at `http://localhost:5000/api`
+## 🔌 API Endpoints
 
-## 🔧 Environment Variables
+### Portfolio
+\`\`\`http
+GET    /api/stocks           # Get portfolio stocks
+POST   /api/stocks           # Add stock
+PUT    /api/stocks/:id       # Update stock
+DELETE /api/stocks/:id       # Remove stock
+\`\`\`
 
-### Frontend (.env)
-- `VITE_API_BASE_URL`: Backend API URL
+### Watchlist
+\`\`\`http
+GET    /api/watchlist           # Get watchlist
+POST   /api/watchlist           # Add to watchlist
+PUT    /api/watchlist/:id       # Update watchlist item
+DELETE /api/watchlist/:id       # Remove from watchlist
+\`\`\`
 
-### Backend (.env)
-- `DATABASE_URL`: PostgreSQL connection string
-- `PORT`: Server port (default: 5000)
-- `NODE_ENV`: Environment (development/production)
+## ⚡️ Tech Stack
 
-## 📝 API Documentation
+### Frontend
+- React + Vite
+- TailwindCSS
+- Framer Motion
+- Tremor Charts
+- Axios
 
-### Endpoints
+### Backend
+- Node.js
+- Express
+- MySQL
+- Knex.js
 
-#### Stocks
-- `GET /api/stocks` - Get all stocks in portfolio
-- `POST /api/stocks` - Add a new stock
-- `PUT /api/stocks/:id` - Update a stock
-- `DELETE /api/stocks/:id` - Delete a stock
-- `GET /api/stocks/:ticker/historical` - Get historical data
+## ⚠️ Limitations
 
-#### Watchlist
-- `GET /api/watchlist` - Get watchlist
-- `POST /api/watchlist` - Add to watchlist
-- `PUT /api/watchlist/:id` - Update watchlist item
-- `DELETE /api/watchlist/:id` - Remove from watchlist
-- `POST /api/watchlist/sync-portfolio` - Sync with portfolio
-
-## ⚠️ Assumptions & Limitations
-
-1. **Stock Data**
-   - Uses simulated stock data for demonstration
-   - Real-time price updates are simulated
-   - Historical data is generated for demonstration
-
-2. **Authentication**
-   - Currently uses a simple reset-based logout
-   - No user authentication system
-   - Single user environment
-
-3. **Performance**
-   - Limited to managing reasonable portfolio sizes
-   - Price updates every minute
-   - Historical data limited to recent periods
-
-4. **Browser Support**
-   - Requires modern browsers
-   - Best experienced on Chrome, Firefox, Safari
-   - Requires JavaScript enabled
-
-## 🛠️ Tech Stack
-
-- **Frontend**
-  - React
-  - Vite
-  - TailwindCSS
-  - Framer Motion
-  - Tremor
-  - Axios
-
-- **Backend**
-  - Node.js
-  - Express
-  - PostgreSQL
-  - Knex.js
-  - Node-Postgres
-
-## 📱 Responsive Design
-
-- Fully responsive layout
-- Mobile-first approach
-- Adaptive UI components
-- Touch-friendly interactions
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Uses simulated stock data
+- Single-user environment
+- Price updates every minute
+- Best viewed in modern browsers
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT © [HackStyx](LICENSE)
