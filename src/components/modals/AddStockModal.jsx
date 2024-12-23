@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { TextInput, NumberInput, Button } from '@tremor/react';
@@ -16,6 +16,11 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
     buy_price: '',
     target_price: ''
   });
+
+  // Log API URL on component mount
+  useEffect(() => {
+    console.log('API Base URL:', API_BASE_URL);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,13 +42,18 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
         throw new Error('Please fill in all required fields');
       }
 
-      const response = await axios.post(`${API_BASE_URL}/stocks`, {
+      const requestData = {
         name: formData.name,
         ticker: formData.ticker.toUpperCase(),
         shares: parseFloat(formData.shares),
         buy_price: parseFloat(formData.buy_price),
         target_price: parseFloat(formData.target_price || formData.buy_price)
-      });
+      };
+
+      console.log('Making API request to:', `${API_BASE_URL}/stocks`);
+      console.log('Request data:', requestData);
+
+      const response = await axios.post(`${API_BASE_URL}/stocks`, requestData);
 
       console.log('Stock added successfully:', response.data);
       
@@ -62,7 +72,12 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
         onStockAdded(response.data);
       }
     } catch (error) {
-      console.error('Error adding stock:', error);
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        apiUrl: API_BASE_URL
+      });
       setError(error.response?.data?.error || error.message || 'Failed to add stock');
     } finally {
       setLoading(false);
