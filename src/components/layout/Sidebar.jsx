@@ -13,7 +13,13 @@ import {
   HiLogout
 } from 'react-icons/hi';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://portfolio-tracker-backend-y7ne.onrender.com/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000
+});
 
 // Loading overlay component
 const LoadingOverlay = ({ message }) => (
@@ -57,7 +63,7 @@ export default function Sidebar({ theme }) {
         setLoadingMessage('Resetting your portfolio...');
 
         // Get all current stocks
-        const portfolioResponse = await axios.get(`${API_BASE_URL}/stocks`);
+        const portfolioResponse = await api.get('/stocks');
         const portfolioStocks = portfolioResponse.data || [];
         
         console.log('Current portfolio stocks:', portfolioStocks);
@@ -65,7 +71,7 @@ export default function Sidebar({ theme }) {
         // Delete all current stocks if there are any
         if (portfolioStocks.length > 0) {
           await Promise.all(portfolioStocks.map(stock => 
-            axios.delete(`${API_BASE_URL}/stocks/${stock.id}`)
+            api.delete(`/stocks/${stock.id}`)
           ));
           console.log('Successfully deleted all portfolio stocks');
         }
@@ -97,7 +103,7 @@ export default function Sidebar({ theme }) {
             };
             
             // Add to portfolio
-            const response = await axios.post(`${API_BASE_URL}/stocks`, portfolioStock);
+            const response = await api.post('/stocks', portfolioStock);
             console.log(`Successfully added stock ${stock.ticker}`);
             results.successful.push(stock.ticker);
           } catch (error) {
@@ -124,7 +130,7 @@ export default function Sidebar({ theme }) {
                   target_price: parseFloat(replacementStock.targetPrice)
                 };
                 
-                const response = await axios.post(`${API_BASE_URL}/stocks`, portfolioStock);
+                const response = await api.post('/stocks', portfolioStock);
                 console.log(`Successfully added replacement stock ${replacementStock.ticker}`);
                 results.successful.push(replacementStock.ticker);
               } catch (retryError) {
