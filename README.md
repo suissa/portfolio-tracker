@@ -80,20 +80,22 @@ npm start
 ## 🔌 API Endpoints
 
 ### Portfolio
-\`\`\`http
-GET    /api/stocks           # Get portfolio stocks
-POST   /api/stocks           # Add stock
-PUT    /api/stocks/:id       # Update stock
-DELETE /api/stocks/:id       # Remove stock
-\`\`\`
+
+```
+GET     /api/stocks           # Get portfolio stocks
+POST    /api/stocks           # Add stock
+PUT     /api/stocks/:id       # Update stock
+DELETE  /api/stocks/:id       # Remove stock
+```
 
 ### Watchlist
-\`\`\`http
-GET    /api/watchlist           # Get watchlist
-POST   /api/watchlist           # Add to watchlist
-PUT    /api/watchlist/:id       # Update watchlist item
-DELETE /api/watchlist/:id       # Remove from watchlist
-\`\`\`
+
+```
+GET     /api/watchlist           # Get watchlist
+POST    /api/watchlist           # Add to watchlist
+PUT     /api/watchlist/:id       # Update watchlist item
+DELETE  /api/watchlist/:id       # Remove from watchlist
+```
 
 ## ⚡️ Tech Stack
 
