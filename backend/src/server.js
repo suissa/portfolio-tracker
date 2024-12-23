@@ -59,21 +59,33 @@ const defaultStocks = [
 
 const app = express();
 
-// Configure CORS
+// Configure CORS with more permissive options for development
 app.use(cors({
   origin: [
     'https://portfolio-tracker-sage.vercel.app',
     'https://portfolio-tracker-hackstyx.vercel.app',
-    'http://localhost:5173'
+    'https://portfolio-tracker-kc46ea0ei-hackstyxs-projects.vercel.app',
+    'http://localhost:5173',
+    /\.vercel\.app$/ // Allow all Vercel preview deployments
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
+
+// Pre-flight requests
+app.options('*', cors());
 
 app.use(express.json());
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  // Add CORS headers explicitly for the health endpoint
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
