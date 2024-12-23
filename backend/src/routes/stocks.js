@@ -4,6 +4,32 @@ const Stock = require('../models/Stock');
 const stockPriceService = require('../services/stockPriceService');
 const { Op } = require('sequelize');
 const { finnhubClient } = require('../config/finnhub');
+const axios = require('axios');
+
+// Test Finnhub connection
+router.get('/test-finnhub/:ticker', async (req, res) => {
+  try {
+    const { ticker } = req.params;
+    console.log('Testing Finnhub connection for ticker:', ticker);
+    
+    const response = await axios.get('https://finnhub.io/api/v1/quote', {
+      params: {
+        symbol: ticker,
+        token: process.env.FINNHUB_API_KEY
+      }
+    });
+    
+    console.log('Finnhub response:', response.data);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Finnhub test error:', error.response?.data || error.message);
+    res.status(500).json({ 
+      error: 'Finnhub test failed',
+      details: error.response?.data || error.message,
+      apiKey: process.env.FINNHUB_API_KEY ? 'Present' : 'Missing'
+    });
+  }
+});
 
 // Get all stocks
 router.get('/', async (req, res) => {
