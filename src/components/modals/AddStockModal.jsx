@@ -1,9 +1,74 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { TextInput, NumberInput, Button } from '@tremor/react';
+import axios from 'axios';
 
-export default function AddStockModal({ open, setOpen }) {
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+export default function AddStockModal({ open, setOpen, onStockAdded }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    ticker: '',
+    shares: '',
+    buy_price: '',
+    target_price: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    setError(''); // Clear error when user makes changes
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Validate form data
+      if (!formData.name || !formData.ticker || !formData.shares || !formData.buy_price) {
+        throw new Error('Please fill in all required fields');
+      }
+
+      const response = await axios.post(`${API_BASE_URL}/stocks`, {
+        name: formData.name,
+        ticker: formData.ticker.toUpperCase(),
+        shares: parseFloat(formData.shares),
+        buy_price: parseFloat(formData.buy_price),
+        target_price: parseFloat(formData.target_price || formData.buy_price)
+      });
+
+      console.log('Stock added successfully:', response.data);
+      
+      // Reset form and close modal
+      setFormData({
+        name: '',
+        ticker: '',
+        shares: '',
+        buy_price: '',
+        target_price: ''
+      });
+      setOpen(false);
+      
+      // Notify parent component
+      if (onStockAdded) {
+        onStockAdded(response.data);
+      }
+    } catch (error) {
+      console.error('Error adding stock:', error);
+      setError(error.response?.data?.error || error.message || 'Failed to add stock');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={setOpen}>
@@ -41,50 +106,110 @@ export default function AddStockModal({ open, setOpen }) {
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
-                <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                    <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900">
-                      Add Stock to Watchlist
-                    </Dialog.Title>
-                    <div className="mt-6 space-y-4">
-                      <div>
-                        <label htmlFor="symbol" className="block text-sm font-medium text-gray-700">
-                          Stock Symbol
-                        </label>
-                        <TextInput
-                          id="symbol"
-                          placeholder="Enter stock symbol (e.g., AAPL)"
-                          className="mt-1"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="alertPrice" className="block text-sm font-medium text-gray-700">
-                          Alert Price
-                        </label>
-                        <NumberInput
-                          id="alertPrice"
-                          placeholder="Enter alert price"
-                          className="mt-1"
-                        />
+                <form onSubmit={handleSubmit}>
+                  <div className="sm:flex sm:items-start">
+                    <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                      <Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900">
+                        Add Stock
+                      </Dialog.Title>
+                      {error && (
+                        <div className="mt-2 text-sm text-red-600">
+                          {error}
+                        </div>
+                      )}
+                      <div className="mt-6 space-y-4">
+                        <div>
+                          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                            Company Name
+                          </label>
+                          <TextInput
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Enter company name"
+                            className="mt-1"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="ticker" className="block text-sm font-medium text-gray-700">
+                            Stock Symbol
+                          </label>
+                          <TextInput
+                            id="ticker"
+                            name="ticker"
+                            value={formData.ticker}
+                            onChange={handleChange}
+                            placeholder="Enter stock symbol (e.g., AAPL)"
+                            className="mt-1"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="shares" className="block text-sm font-medium text-gray-700">
+                            Number of Shares
+                          </label>
+                          <NumberInput
+                            id="shares"
+                            name="shares"
+                            value={formData.shares}
+                            onChange={handleChange}
+                            placeholder="Enter number of shares"
+                            className="mt-1"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="buy_price" className="block text-sm font-medium text-gray-700">
+                            Buy Price
+                          </label>
+                          <NumberInput
+                            id="buy_price"
+                            name="buy_price"
+                            value={formData.buy_price}
+                            onChange={handleChange}
+                            placeholder="Enter buy price"
+                            className="mt-1"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="target_price" className="block text-sm font-medium text-gray-700">
+                            Target Price (Optional)
+                          </label>
+                          <NumberInput
+                            id="target_price"
+                            name="target_price"
+                            value={formData.target_price}
+                            onChange={handleChange}
+                            placeholder="Enter target price"
+                            className="mt-1"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <Button
-                    variant="primary"
-                    className="w-full sm:w-auto sm:ml-3"
-                  >
-                    Add to Watchlist
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="mt-3 w-full sm:mt-0 sm:w-auto"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
+                  <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full sm:w-auto sm:ml-3"
+                      disabled={loading}
+                    >
+                      {loading ? 'Adding...' : 'Add Stock'}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="mt-3 w-full sm:mt-0 sm:w-auto"
+                      onClick={() => setOpen(false)}
+                      disabled={loading}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
               </Dialog.Panel>
             </Transition.Child>
           </div>
