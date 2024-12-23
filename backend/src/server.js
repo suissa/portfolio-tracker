@@ -59,8 +59,19 @@ const defaultStocks = [
 
 const app = express();
 
-app.use(cors());
+// Configure CORS
+app.use(cors({
+  origin: ['https://portfolio-tracker-hackstyx.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Server is running' });
+});
 
 app.use('/api/stocks', stockRoutes);
 app.use('/api/watchlist', watchlistRoutes);

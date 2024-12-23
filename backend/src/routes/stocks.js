@@ -70,7 +70,13 @@ router.get('/:ticker/quote', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { name, ticker, shares, buy_price, target_price } = req.body;
-    console.log('Adding stock:', { name, ticker, shares, buy_price, target_price });
+    console.log('Received request to add stock:', req.body);
+
+    // Validate required fields
+    if (!name || !ticker || !shares || !buy_price) {
+      console.error('Missing required fields');
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
     // Validate numeric values
     const parsedShares = parseFloat(shares);
@@ -78,31 +84,38 @@ router.post('/', async (req, res) => {
     const parsedTargetPrice = parseFloat(target_price || buy_price); // Use buy_price as default target_price
 
     if (isNaN(parsedShares) || parsedShares <= 0) {
+      console.error('Invalid number of shares:', shares);
       throw new Error('Invalid number of shares');
     }
 
     if (isNaN(parsedBuyPrice) || parsedBuyPrice <= 0) {
+      console.error('Invalid buy price:', buy_price);
       throw new Error('Invalid buy price');
     }
 
+    console.log('Fetching current price for ticker:', ticker);
     // Get current price from Finnhub
     const quote = await stockPriceService.getStockQuote(ticker);
+    console.log('Received quote:', quote);
+    
     if (!quote || !quote.c) {
+      console.error('Failed to fetch quote for ticker:', ticker);
       throw new Error('Unable to fetch current price for ticker');
     }
 
+    console.log('Creating stock in database');
     const stock = await Stock.create({
       name: name.trim(),
       ticker: ticker.toUpperCase().trim(),
       shares: parsedShares,
       buy_price: parsedBuyPrice,
       current_price: quote.c,
-      target_price: parsedTargetPrice,  // Added target_price
-      is_in_watchlist: true,
+      target_price: parsedTargetPrice,
+      is_in_watchlist: false,
       last_updated: new Date()
     });
 
-    console.log('Stock added:', stock.id);
+    console.log('Stock added successfully:', stock.id);
     res.status(201).json(stock);
   } catch (error) {
     console.error('Error adding stock:', error);
