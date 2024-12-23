@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Stock } = require('../models/stock');
+const Stock = require('../models/Stock');
 const { Op } = require('sequelize');
 
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
