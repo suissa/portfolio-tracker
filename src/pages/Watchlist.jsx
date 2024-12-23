@@ -5,7 +5,13 @@ import { HiOutlineEye, HiOutlineTrash, HiSearch, HiPlus, HiTrendingUp, HiTrendin
 import { Card, Text, Metric, Badge, ProgressBar } from '@tremor/react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://portfolio-tracker-backend-y7ne.onrender.com/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000
+});
 
 const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([]);
@@ -43,8 +49,8 @@ const Watchlist = () => {
 
   const fetchWatchlist = async () => {
     try {
-      console.log('Fetching watchlist...');
-      const response = await axios.get(`${API_BASE_URL}/watchlist`);
+      console.log('Fetching watchlist from:', API_BASE_URL);
+      const response = await api.get('/watchlist');
       console.log('Watchlist response:', response.data);
       setWatchlist(response.data);
       setLoading(false);
@@ -58,7 +64,7 @@ const Watchlist = () => {
   const syncPortfolioStocks = async () => {
     try {
       console.log('Syncing portfolio stocks...');
-      await axios.post(`${API_BASE_URL}/watchlist/sync-portfolio`);
+      await api.post('/watchlist/sync-portfolio');
       await fetchWatchlist();
     } catch (error) {
       console.error('Error syncing portfolio stocks:', error);
@@ -70,7 +76,7 @@ const Watchlist = () => {
     e.preventDefault();
     try {
       console.log('Adding stock:', newStock);
-      await axios.post(`${API_BASE_URL}/watchlist`, newStock);
+      await api.post('/watchlist', newStock);
       setShowAddModal(false);
       setNewStock({ name: '', ticker: '', target_price: '' });
       await fetchWatchlist();
@@ -84,7 +90,7 @@ const Watchlist = () => {
     if (window.confirm('Are you sure you want to remove this stock from your watchlist?')) {
       try {
         console.log('Deleting stock:', id);
-        await axios.delete(`${API_BASE_URL}/watchlist/${id}`);
+        await api.delete(`/watchlist/${id}`);
         await fetchWatchlist();
       } catch (error) {
         console.error('Error deleting stock:', error);
@@ -97,7 +103,7 @@ const Watchlist = () => {
     e.preventDefault();
     try {
       console.log('Updating stock:', selectedStock);
-      await axios.put(`${API_BASE_URL}/watchlist/${selectedStock.id}`, {
+      await api.put(`/watchlist/${selectedStock.id}`, {
         target_price: selectedStock.target_price
       });
       setShowUpdateModal(false);
@@ -113,7 +119,7 @@ const Watchlist = () => {
     setSelectedStock(stock);
     setShowViewModal(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/watchlist/${stock.id}/history`);
+      const response = await api.get(`/watchlist/${stock.id}/history`);
       setPriceHistory(response.data.map(item => ({
         ...item,
         date: new Date(item.timestamp).toLocaleDateString(),

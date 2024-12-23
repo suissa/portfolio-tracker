@@ -26,7 +26,13 @@ import {
   HiChartBar
 } from 'react-icons/hi';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://portfolio-tracker-backend-y7ne.onrender.com/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000
+});
 
 export default function Portfolio() {
   const [stocks, setStocks] = useState([]);
@@ -64,7 +70,9 @@ export default function Portfolio() {
 
   const fetchStocks = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/stocks`);
+      console.log('Fetching stocks from:', API_BASE_URL);
+      const response = await api.get('/stocks');
+      console.log('Stocks fetched successfully:', response.data);
       setStocks(response.data);
       setError(null);
     } catch (err) {
@@ -78,7 +86,7 @@ export default function Portfolio() {
   const handleAddStock = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/stocks`, {
+      const response = await api.post('/stocks', {
         name: newStock.name,
         ticker: newStock.ticker,
         shares: parseFloat(newStock.shares),
@@ -98,7 +106,7 @@ export default function Portfolio() {
   const handleEditStock = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${API_BASE_URL}/stocks/${editingStock.id}`, {
+      const response = await api.put(`/stocks/${editingStock.id}`, {
         name: editingStock.name,
         ticker: editingStock.ticker,
         shares: parseFloat(editingStock.shares),
@@ -120,7 +128,7 @@ export default function Portfolio() {
   const handleDeleteStock = async (id) => {
     if (window.confirm('Are you sure you want to delete this stock?')) {
       try {
-        await axios.delete(`${API_BASE_URL}/stocks/${id}`);
+        await api.delete(`/stocks/${id}`);
         setStocks(stocks.filter(stock => stock.id !== id));
         setError(null);
       } catch (err) {
