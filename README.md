@@ -14,7 +14,7 @@
   <strong>A modern, responsive stock portfolio tracker built with React and Node.js</strong>
 </p>
 
-[Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Endpoint](https://portfolio-tracker-backend-y7ne.onrender.com/api) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
+[Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Documentation](#-api-endpoints) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
 
 ![Portfolio Dashboard](https://i.imgur.com/your-screenshot.png)
 
@@ -78,6 +78,11 @@ npm start
 ```
 
 ## 🔌 API Endpoints
+
+### Base URL
+```
+https://portfolio-tracker-backend-y7ne.onrender.com/api
+```
 
 ### Portfolio
 
