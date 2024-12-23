@@ -6,7 +6,13 @@ import axios from 'axios';
 import PortfolioAnalytics from '../components/dashboard/PortfolioAnalytics';
 import StockDetail from '../components/dashboard/StockDetail';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://portfolio-tracker-backend-y7ne.onrender.com/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000
+});
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -122,10 +128,13 @@ export default function Dashboard({ theme: propTheme }) {
 
   const fetchStocks = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/stocks`);
+      console.log('Fetching stocks from:', API_BASE_URL);
+      const response = await api.get('/stocks');
+      console.log('Stocks fetched successfully:', response.data);
       setStocks(response.data);
       setLoading(false);
     } catch (err) {
+      console.error('Error fetching stocks:', err);
       setError('Failed to fetch stocks');
       setLoading(false);
     }
