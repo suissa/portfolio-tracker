@@ -6,7 +6,7 @@ const sequelize = require('./config/database');
 const stockRoutes = require('./routes/stocks');
 const watchlistRoutes = require('./routes/watchlist');
 const stockPriceService = require('./services/stockPriceService');
-const { Stock } = require('./models/stock');
+const Stock = require('./models/Stock');
 
 // Sample stocks data for initialization
 const defaultStocks = [
