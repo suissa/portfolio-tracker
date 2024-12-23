@@ -16,7 +16,7 @@
 
 [Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Documentation](#-api-endpoints) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
 
-![Portfolio Dashboard](https://i.imgur.com/your-screenshot.png)
+![Portfolio Dashboard](https://github.com/user-attachments/assets/c18f253c-2ac2-4df9-8025-c91858b74237)
 
 </div>
 
