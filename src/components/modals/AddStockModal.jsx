@@ -4,7 +4,14 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { TextInput, NumberInput, Button } from '@tremor/react';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// Get API URL from environment variable, fallback to production URL if not set
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://portfolio-tracker-backend-y7ne.onrender.com/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000
+});
 
 export default function AddStockModal({ open, setOpen, onStockAdded }) {
   const [loading, setLoading] = useState(false);
@@ -17,9 +24,15 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
     target_price: ''
   });
 
-  // Log API URL on component mount
+  // Log API URL and environment on component mount
   useEffect(() => {
+    console.log('Environment:', import.meta.env.MODE);
     console.log('API Base URL:', API_BASE_URL);
+    
+    // Test API connection
+    api.get('/health')
+      .then(response => console.log('API Health Check:', response.data))
+      .catch(error => console.error('API Health Check Failed:', error));
   }, []);
 
   const handleChange = (e) => {
@@ -28,7 +41,7 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
       ...prev,
       [name]: value
     }));
-    setError(''); // Clear error when user makes changes
+    setError('');
   };
 
   const handleSubmit = async (e) => {
@@ -37,7 +50,6 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
     setError('');
 
     try {
-      // Validate form data
       if (!formData.name || !formData.ticker || !formData.shares || !formData.buy_price) {
         throw new Error('Please fill in all required fields');
       }
@@ -53,11 +65,10 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
       console.log('Making API request to:', `${API_BASE_URL}/stocks`);
       console.log('Request data:', requestData);
 
-      const response = await axios.post(`${API_BASE_URL}/stocks`, requestData);
+      const response = await api.post('/stocks', requestData);
 
       console.log('Stock added successfully:', response.data);
       
-      // Reset form and close modal
       setFormData({
         name: '',
         ticker: '',
@@ -67,7 +78,6 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
       });
       setOpen(false);
       
-      // Notify parent component
       if (onStockAdded) {
         onStockAdded(response.data);
       }
@@ -76,7 +86,8 @@ export default function AddStockModal({ open, setOpen, onStockAdded }) {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        apiUrl: API_BASE_URL
+        apiUrl: API_BASE_URL,
+        mode: import.meta.env.MODE
       });
       setError(error.response?.data?.error || error.message || 'Failed to add stock');
     } finally {
