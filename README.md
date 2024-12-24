@@ -9,12 +9,15 @@
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Finnhub](https://img.shields.io/badge/Finnhub-1B1B1B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMyA2aDJsMTUgMk0xNyA2djE0TTcgMTZoMTAiLz48L3N2Zz4=)](https://finnhub.io/)
 
 <p align="center">
   <strong>A modern, responsive stock portfolio tracker built with React and Node.js</strong>
 </p>
 
 [Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Documentation](#-api-endpoints) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
+
+> **Note**: Due to the free tier limitations of Render, the initial load of the demo might take 30-60 seconds. If no data appears, please refresh the page. If issues persist, click the logout button to reset the application state. The backend spins down after 15 minutes of inactivity and needs time to restart.
 
 ![Portfolio Dashboard](https://github.com/user-attachments/assets/c18f253c-2ac2-4df9-8025-c91858b74237)
 
@@ -26,8 +29,10 @@
 - 👀 **Watchlist** - Monitor potential investments
 - 🌓 **Dark/Light Mode** - Easy on the eyes, day and night
 - 📱 **Fully Responsive** - Perfect on desktop and mobile
-- 🔄 **Live Updates** - Stock prices update automatically
-- 📈 **Price History** - Visualize stock performance
+- 🔄 **Live Updates** - Real-time stock prices via Finnhub API
+- 📈 **Price History** - Visualize stock performance with historical data
+- 💹 **Market Data** - Real-time quotes and market status tracking
+- 🎯 **Price Targets** - Set and monitor stock price targets
 
 ## 🚀 Quick Start
 
@@ -36,6 +41,7 @@
 - Node.js 14+
 - npm or yarn
 - MySQL
+- Finnhub API Key (get one at [finnhub.io](https://finnhub.io/))
 
 ### Frontend Setup
 
@@ -69,6 +75,7 @@ npm install
 DATABASE_URL=mysql://user:password@localhost:3306/portfolio_tracker
 PORT=5000
 NODE_ENV=development
+FINNHUB_API_KEY=your_finnhub_api_key
 ```
 
 3. Run migrations and start:
@@ -104,25 +111,54 @@ DELETE  /api/watchlist/:id       # Remove from watchlist
 
 ## ⚡️ Tech Stack
 
-### Frontend
-- React + Vite
-- TailwindCSS
-- Framer Motion
-- Tremor Charts
-- Axios
+### 🎨 Frontend
+- **Framework**: [React](https://reactjs.org/) - A JavaScript library for building user interfaces
+- **Build Tool**: [Vite](https://vitejs.dev/) - Next generation frontend tooling
+- **Styling**: 
+  - [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework
+  - [Tremor](https://www.tremor.so/) - React library for dashboards and charts
+  - [Framer Motion](https://www.framer.com/motion/) - Animation library
+- **State Management**: React Context API
+- **HTTP Client**: [Axios](https://axios-http.com/) - Promise based HTTP client
 
-### Backend
-- Node.js
-- Express
-- MySQL
-- Knex.js
+### 🛠 Backend
+- **Runtime**: [Node.js](https://nodejs.org/) - JavaScript runtime
+- **Framework**: [Express](https://expressjs.com/) - Web framework for Node.js
+- **Database**: [MySQL](https://www.mysql.com/) - Open-source relational database
+- **ORM**: [Sequelize](https://sequelize.org/) - Modern TypeScript and Node.js ORM
+- **Market Data**: [Finnhub](https://finnhub.io/) - Real-time RESTful APIs for stocks
+- **API Documentation**: OpenAPI/Swagger
+
+### 🚀 DevOps & Infrastructure
+- **Frontend Hosting**: [Vercel](https://vercel.com/)
+  - Zero-config deployments
+  - Automatic HTTPS
+  - Edge Network for optimal performance
+- **Backend Hosting**: [Render](https://render.com/)
+  - Containerized deployment
+  - Automatic scaling
+  - Built-in monitoring
+- **Database Hosting**: [Railway](https://railway.app/)
+  - Managed MySQL database
+  - Automated backups
+  - High availability
+
+### 📦 Additional Tools
+- **Version Control**: Git & GitHub
+- **Code Quality**: ESLint & Prettier
+- **API Testing**: Postman
+- **Environment Variables**: dotenv
+- **Security**: CORS, Helmet
+- **Real-time Data**: WebSocket (planned)
 
 ## ⚠️ Limitations
 
-- Uses simulated stock data
+- Uses simulated stock data when Finnhub API rate limit is reached
 - Single-user environment
 - Price updates every minute
 - Best viewed in modern browsers
+- Backend spins down after 15 minutes of inactivity and needs time to restart
+- Limited to 60 API calls per minute (Finnhub free tier)
 
 ## 📄 License
 
