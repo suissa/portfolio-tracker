@@ -10,8 +10,10 @@ permalink: /
 
 A modern REST API for real-time stock portfolio management with Finnhub integration.
 
-[Get Started](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2}
-[View on GitHub](https://github.com/HackStyx/portfolio-tracker){: .btn .fs-5 .mb-4 .mb-md-0}
+<div class="buttons-container" markdown="1">
+[Get Started](#getting-started){: .btn .btn-blue .mr-2}
+[View on GitHub](https://github.com/HackStyx/portfolio-tracker){: .btn}
+</div>
 
 ## Overview
 
