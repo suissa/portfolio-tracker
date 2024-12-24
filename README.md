@@ -10,12 +10,13 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Finnhub](https://img.shields.io/badge/Finnhub-1B1B1B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMyA2aDJsMTUgMk0xNyA2djE0TTcgMTZoMTAiLz48L3N2Zz4=)](https://finnhub.io/)
+[![API Docs](https://img.shields.io/badge/API_Docs-000000?style=for-the-badge&logo=github&logoColor=white)](https://hackstyx.github.io/portfolio-tracker/)
 
 <p align="center">
   <strong>A modern, responsive stock portfolio tracker built with React and Node.js</strong>
 </p>
 
-[Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Documentation](#-api-endpoints) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
+[Live Demo](https://portfolio-tracker-hackstyx.vercel.app) • [API Documentation](https://hackstyx.github.io/portfolio-tracker/) • [Report Bug](https://github.com/HackStyx/portfolio-tracker/issues)
 
 > **Note**: Due to the free tier limitations of Render, the initial load of the demo might take 30-60 seconds. If no data appears, please refresh the page. If issues persist, click the logout button to reset the application state. The backend spins down after 15 minutes of inactivity and needs time to restart.
 
@@ -84,30 +85,47 @@ npm run migrate
 npm start
 ```
 
-## 🔌 API Endpoints
+## 🔌 API Documentation
+
+Our API is fully documented and available at [https://hackstyx.github.io/portfolio-tracker/](https://hackstyx.github.io/portfolio-tracker/)
 
 ### Base URL
 ```
 https://portfolio-tracker-backend-y7ne.onrender.com/api
 ```
 
-### Portfolio
+### Key Endpoints
 
-```
-GET     /api/stocks           # Get portfolio stocks
-POST    /api/stocks           # Add stock
-PUT     /api/stocks/:id       # Update stock
-DELETE  /api/stocks/:id       # Remove stock
+#### Portfolio Management
+```http
+GET     /stocks              # Get all stocks in portfolio
+POST    /stocks              # Add new stock
+PUT     /stocks/:id          # Update existing stock
+DELETE  /stocks/:id          # Remove stock from portfolio
 ```
 
-### Watchlist
+#### Watchlist Management
+```http
+GET     /watchlist           # Get watchlist items
+POST    /watchlist           # Add stock to watchlist
+DELETE  /watchlist/:id       # Remove from watchlist
+```
 
+#### Market Data
+```http
+GET     /stocks/:ticker/quote    # Get real-time stock quote
+GET     /stocks/:ticker/history  # Get historical price data
+GET     /stocks/summary         # Get portfolio analytics
 ```
-GET     /api/watchlist           # Get watchlist
-POST    /api/watchlist           # Add to watchlist
-PUT     /api/watchlist/:id       # Update watchlist item
-DELETE  /api/watchlist/:id       # Remove from watchlist
-```
+
+For detailed API documentation including:
+- Request/Response formats
+- Authentication details
+- Rate limiting
+- Error handling
+- Code examples
+
+Visit our [API Documentation](https://hackstyx.github.io/portfolio-tracker/)
 
 ## ⚡️ Tech Stack
 
@@ -162,4 +180,17 @@ DELETE  /api/watchlist/:id       # Remove from watchlist
 
 ## 📄 License
 
-MIT © [HackStyx](LICENSE)
+This project is licensed under the MIT License.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+For more information, see the [LICENSE](LICENSE) file in the repository.
+
+
+
+<div align="center">
+  <p>THANK YOU FOR VISITING ❤️</p>
+</div>
+
+<p align="center">
+	<img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true" />
+</p>
