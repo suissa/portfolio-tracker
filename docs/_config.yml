@@ -1,0 +1,15 @@
+theme: jekyll-theme-cayman
+
+title: Stock Portfolio Tracker API
+description: A modern REST API for real-time stock portfolio management
+show_downloads: true
+google_analytics:
+
+# Theme settings
+markdown: kramdown
+highlighter: rouge
+
+# GitHub Pages settings
+github:
+  is_project_page: true
+  repository_url: https://github.com/HackStyx/portfolio-tracker 
