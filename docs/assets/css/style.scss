@@ -1,0 +1,65 @@
+@import "{{ site.theme }}";
+
+// Custom styles
+.site-footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: solid 1px #eff0f1;
+}
+
+.site-footer-owner {
+  display: none;
+}
+
+.site-footer-credits {
+  display: none;
+}
+
+// Additional customizations
+.main-content {
+  h1, h2, h3, h4, h5, h6 {
+    color: #2c3e50;
+  }
+}
+
+.btn {
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Table styles
+table {
+  display: table;
+  width: 100%;
+  margin-bottom: 1rem;
+  
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+}
+
+// Code block styles
+.highlight {
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  
+  pre {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    overflow-x: auto;
+  }
+} 

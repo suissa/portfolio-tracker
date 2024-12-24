@@ -9,7 +9,13 @@ google_analytics:
 markdown: kramdown
 highlighter: rouge
 
-# GitHub Pages settings
+# Custom settings
 github:
   is_project_page: true
-  repository_url: https://github.com/HackStyx/portfolio-tracker 
+  repository_url: https://github.com/HackStyx/portfolio-tracker
+
+# Footer customization
+footer:
+  show_edit_on_github: false
+  show_github_pages_notice: false
+  custom_text: "Copyright © 2024 Stock Portfolio Tracker. All rights reserved." 
