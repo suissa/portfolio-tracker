@@ -1,4 +1,11 @@
-const FINNHUB_API_KEY = 'cj9l8e1r01qr4t8r2qngcj9l8e1r01qr4t8r2qo0';
+require('dotenv').config();
+
+const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
+
+if (!FINNHUB_API_KEY) {
+  console.error('FINNHUB_API_KEY environment variable is not set');
+  process.exit(1);
+}
 
 module.exports = {
   API_KEY: FINNHUB_API_KEY,
